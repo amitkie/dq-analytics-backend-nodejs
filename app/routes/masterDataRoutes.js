@@ -17,7 +17,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/v1/get-all-brands:
+ * /master/get-all-brands:
  *   get:
  *     summary: Retrieve all brands
  *     tags: [Master Data]
@@ -32,7 +32,7 @@ router.get("/get-all-brands", getAllBrandsController);
 
 /**
  * @swagger
- * /api/v1/get-all-brands-with-category:
+ * /master/get-all-brands-with-category:
  *   get:
  *     summary: Retrieve all categories
  *     tags: [Master Data]
@@ -50,7 +50,7 @@ router.get(
 
 /**
  * @swagger
- * /api/v1/get-all-categories:
+ * /master/get-all-categories:
  *   get:
  *     summary: Retrieve all categories
  *     tags: [Master Data]
@@ -64,7 +64,7 @@ router.get("/get-all-categories", getAllCategoriesController);
 
 /**
  * @swagger
- * /api/v1/get-all-categories-by-brand-ids:
+ * /master/get-all-categories-by-brand-ids:
  *   post:
  *     summary: Retrieve categories by brand IDs
  *     tags: [Master Data]
@@ -96,7 +96,7 @@ router.post(
 
 /**
  * @swagger
- * /api/v1/get-all-sections:
+ * /master/get-all-sections:
  *   get:
  *     summary: Retrieve all sections
  *     tags: [Master Data]
@@ -110,7 +110,7 @@ router.get("/get-all-sections", getAllSectionController);
 
 /**
  * @swagger
- * /api/v1/get-all-platforms:
+ * /master/get-all-platforms:
  *   get:
  *     summary: Retrieve all platforms
  *     tags: [Master Data]
@@ -124,7 +124,7 @@ router.get("/get-all-platforms", getAllPlatformController);
 
 /**
  * @swagger
- * /api/v1/get-all-platforms-by-section-id:
+ * /master/get-all-platforms-by-section-id:
  *   post:
  *     summary: Retrieve platforms by section ID
  *     tags: [Master Data]
@@ -153,7 +153,7 @@ router.post(
 
 /**
  * @swagger
- * /api/v1/get-all-metrics:
+ * /master/get-all-metrics:
  *   get:
  *     summary: Retrieve all metrics
  *     tags: [Master Data]
@@ -167,7 +167,7 @@ router.get("/get-all-metrics", getAllMetricsController);
 
 /**
  * @swagger
- * /api/v1/get-all-metrics-by-platform-ids:
+ * /master/get-all-metrics-by-platform-ids:
  *   post:
  *     summary: Retrieve metrics by platform IDs
  *     tags: [Master Data]
@@ -198,7 +198,7 @@ router.post(
 
 /**
  * @swagger
- * /api/v1/get-all-benchmarks:
+ * /master/get-all-benchmarks:
  *   get:
  *     summary: Retrieve all benchmarks
  *     tags: [Master Data]
@@ -212,7 +212,7 @@ router.get("/get-all-benchmarks", getAllBenchmarkController);
 
 /**
  * @swagger
- * /api/v1/get-all-frequencies:
+ * /master/get-all-frequencies:
  *   get:
  *     summary: Retrieve all frequencies
  *     tags: [Master Data]

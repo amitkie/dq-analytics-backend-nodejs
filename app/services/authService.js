@@ -103,7 +103,17 @@ async function getUserAndPaymentInfo(body) {
   const paymentInfo = await payments.findOne({ where: { user_id: userId } });
 
   return {
-    user,
+    user: {
+      id: user.id,
+      first_name: req.user.firstName,
+      last_name: req.user.lastName,
+      email: user.email,
+      domain: user.domain,
+      phone: req.user.phone,
+      designation: req.user.designation,
+      profilePicture: req.user.profilePicture,
+      role: req.user.role,
+    },
     paymentInfo,
   };
 }
@@ -116,7 +126,17 @@ async function getUserInfo(body) {
   }
 
   return {
-    user
+    user: {
+      id: user.id,
+      first_name: req.user.firstName,
+      last_name: req.user.lastName,
+      email: user.email,
+      domain: user.domain,
+      phone: req.user.phone,
+      designation: req.user.designation,
+      profilePicture: req.user.profilePicture,
+      role: req.user.role,
+    }
   };
 }
 
@@ -125,12 +145,12 @@ const nodemailer = require("nodemailer");
 const sendFeedbackEmail = async ({ firstName, lastName, email, requestType, comments }) => {
   // Configure the transporter
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com", 
+    host: "smtp.gmail.com",
     port: 465,
     secure: true,
     auth: {
-      user: "guruhari1983@gmail.com", 
-      pass: "ygnp vgrn vfyr uktu", 
+      user: "guruhari1983@gmail.com",
+      pass: "ygnp vgrn vfyr uktu",
     },
 
   });
@@ -139,7 +159,7 @@ const sendFeedbackEmail = async ({ firstName, lastName, email, requestType, comm
   const mailOptions = {
     from: "guruhari1983@gmail.com",
     //  to: "hariharan.p@kiesquare.com", // Replace with the receiving email address
-     to: "suryansh.s@kiesquare.com", // Replace with the receiving email address
+    to: "suryansh.s@kiesquare.com", // Replace with the receiving email address
     subject: "New Feedback Received",
     html: `
       <!DOCTYPE html>
@@ -215,12 +235,12 @@ const sendFeedbackEmail = async ({ firstName, lastName, email, requestType, comm
 const demoScheduler = async ({  email}) => {
   // Configure the transporter
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com", 
+    host: "smtp.gmail.com",
     port: 465,
     secure: true,
     auth: {
-      user: "guruhari1983@gmail.com", 
-      pass: "ygnp vgrn vfyr uktu", 
+      user: "guruhari1983@gmail.com",
+      pass: "ygnp vgrn vfyr uktu",
     },
 
   });
@@ -229,7 +249,7 @@ const demoScheduler = async ({  email}) => {
   const mailOptions = {
     from: "guruhari1983@gmail.com",
     //  to: "hariharan.p@kiesquare.com", // Replace with the receiving email address
-     to: "suryansh.s@kiesquare.com", // Replace with the receiving email address
+    to: "suryansh.s@kiesquare.com", // Replace with the receiving email address
     subject: "New Feedback Received",
     html: `
     <!DOCTYPE html>

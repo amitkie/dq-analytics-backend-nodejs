@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController =require('../controllers/authController')
 
-// POST /api/auth/register - Register a new user
+// POST /api/v1/register - Register a new user
 /**
  * @swagger
  * tags:
@@ -12,7 +12,7 @@ const authController =require('../controllers/authController')
 
 /**
  * @swagger
- * /auth/register:
+ * /register:
  *   post:
  *     summary: Register a new user
  *     tags: [Authentication]
@@ -43,10 +43,10 @@ const authController =require('../controllers/authController')
  */
 router.post('/register', authController.createUser)
 
-// POST /api/auth/login - Login an existing user (authentication)
+// POST /api/v1/login - Login an existing user (authentication)
 /**
  * @swagger
- * /auth/login:
+ * /login:
  *   post:
  *     summary: Login a user
  *     tags: [Authentication]
@@ -73,10 +73,10 @@ router.post('/register', authController.createUser)
  */
 router.post('/login', authController.loginUser);
 
-
+//  POST /api/v1/get-user-info 
 /**
  * @swagger
- * /api/v1/get-user-info:
+ * /get-user-info:
  *   post:
  *     summary: Get user and payment info
  *     tags: [Authentication]
@@ -100,9 +100,9 @@ router.post('/login', authController.loginUser);
  */
 router.post('/get-user-info', authController.getUserAndPaymentInfo);
 
-/**
+/** POST /api/v1/get-user-data
  * @swagger
- * /api/v1/get-user-data:
+ * /get-user-data:
  *   post:
  *     summary: Get user data
  *     tags: [Authentication]
@@ -126,9 +126,9 @@ router.post('/get-user-info', authController.getUserAndPaymentInfo);
  */
 router.post('/get-user-data', authController.getUserInfo);
 
-/**
+/**  POST /api/v1/send-feedback
  * @swagger
- * /api/v1/send-feedback:
+ * /send-feedback:
  *   post:
  *     summary: Send user feedback
  *     tags: [Authentication]
@@ -164,9 +164,9 @@ router.post('/get-user-data', authController.getUserInfo);
  */
 router.post('/send-feedback', authController.sendFeedback);
 
-/**
+/** POST /api/v1/demo-scheduler
  * @swagger
- * /api/v1/demo-scheduler:
+ * /demo-scheduler:
  *   post:
  *     summary: Schedule a demo
  *     tags: [Authentication]
