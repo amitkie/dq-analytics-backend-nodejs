@@ -14,7 +14,12 @@ async function authenticate(req, res, next) {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
+            body: JSON.stringify({
+                toolName: 'DIGI-CADENCE'
+            }),
         });
 
         if (!response.ok) {
