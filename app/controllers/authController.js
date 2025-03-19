@@ -81,7 +81,7 @@ const getUserInfo = async (req,res) => {
 
 const sendFeedback = async (req, res) => {
     try {
-        const { firstName, lastName, email, requestType, comments } = req.body;
+        const { firstName, lastName, email, requestType, comments, source } = req.body;
 
         // Validate input
         if (!firstName || !lastName || !email || !requestType || !comments) {
@@ -89,7 +89,7 @@ const sendFeedback = async (req, res) => {
         }
 
         // Call the service
-        await authService.sendFeedbackEmail({ firstName, lastName, email, requestType, comments });
+        await authService.sendFeedbackEmail({ firstName, lastName, email, requestType, comments, source });
 
         res.status(200).json({ message: "Feedback sent successfully!" });
     } catch (error) {
@@ -100,15 +100,15 @@ const sendFeedback = async (req, res) => {
 
 const demoScheduler = async (req, res) => {
     try {
-        const { email } = req.body;
+        const { email, source } = req.body;
 
         // Validate input
         if ( !email ) {
             return res.status(400).json({ message: "Email field is required." });
-        }
+        }s
 
         // Call the service
-        await authService.demoScheduler({  email});
+        await authService.demoScheduler({  email, source});
 
         res.status(200).json({ message: "Feedback sent successfully!" });
     } catch (error) {
