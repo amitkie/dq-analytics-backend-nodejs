@@ -142,7 +142,7 @@ async function getUserInfo(body) {
 
 const nodemailer = require("nodemailer");
 
-const sendFeedbackEmail = async ({ firstName, lastName, email, requestType, comments }) => {
+const sendFeedbackEmail = async ({ firstName, lastName, email, requestType, comments, source }) => {
   // Configure the transporter
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -158,7 +158,7 @@ const sendFeedbackEmail = async ({ firstName, lastName, email, requestType, comm
   // Email content
   const mailOptions = {
     from: "guruhari1983@gmail.com",
-    //  to: "hariharan.p@kiesquare.com", // Replace with the receiving email address
+    // to: "hariharan.p@kiesquare.com", // Replace with the receiving email address
     to: "suryansh.s@kiesquare.com", // Replace with the receiving email address
     subject: "New Feedback Received",
     html: `
@@ -219,6 +219,7 @@ const sendFeedbackEmail = async ({ firstName, lastName, email, requestType, comm
             <p><strong>Request Type:</strong> ${requestType}</p>
             <p><strong>Comments:</strong></p>
             <p>${comments}</p>
+            <p><strong>Source:</strong> ${source}</p>
           </div>
           <div class="email-footer">
             <p>Thank you for sharing your feedback with us!</p>
@@ -232,8 +233,9 @@ const sendFeedbackEmail = async ({ firstName, lastName, email, requestType, comm
   await transporter.sendMail(mailOptions);
 };
 
-const demoScheduler = async ({  email}) => {
+const demoScheduler = async ({  email, source}) => {
   // Configure the transporter
+  console.log("source", source)
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -248,7 +250,7 @@ const demoScheduler = async ({  email}) => {
   // Email content
   const mailOptions = {
     from: "guruhari1983@gmail.com",
-    //  to: "hariharan.p@kiesquare.com", // Replace with the receiving email address
+    // to: "hariharan.p@kiesquare.com", // Replace with the receiving email address
     to: "suryansh.s@kiesquare.com", // Replace with the receiving email address
     subject: "New Feedback Received",
     html: `
@@ -307,6 +309,7 @@ const demoScheduler = async ({  email}) => {
           <p>Hello Team,</p>
           <p>A new user has requested a demo. Here are their details:</p>
           <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Source:</strong> ${source}</p>
         </div>
         <div class="email-footer">
           <p>Best Regards,<br>Your Automated System</p>

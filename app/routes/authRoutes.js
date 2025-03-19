@@ -154,6 +154,9 @@ router.post('/get-user-data', authController.getUserInfo);
  *               comments:
  *                 type: string
  *                 example: "I would love a dark mode feature."
+ *               source:
+ *                 type: string
+ *                 example: "Feature Request"
  *     responses:
  *       200:
  *         description: Feedback sent successfully
@@ -180,6 +183,9 @@ router.post('/send-feedback', authController.sendFeedback);
  *               email:
  *                 type: string
  *                 example: "user@example.com"
+ *                source:
+ *                 type: string
+ *                 example: "Feature Request"
  *     responses:
  *       200:
  *         description: Demo scheduled successfully
