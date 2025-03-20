@@ -13,7 +13,7 @@ async function authenticate(req, res, next) {
         const response = await fetch(process.env.ONBOARDING_PORTAL_SERVER_URL + '/auth/isLoggedIn', {
             method: 'POST',
             headers: {
-                Authorization: `Bearer ${token}`,
+                authorization: `Bearer ${token}`,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
