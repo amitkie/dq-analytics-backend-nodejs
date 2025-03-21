@@ -117,7 +117,7 @@ async function getUserAndPaymentInfo(body) {
     paymentInfo,
   };
 }
-async function getUserInfo(body) {
+async function getUserInfo(body, reqUser) {
   const { userId } = body;
   const user = await users.findOne({ where: { id: userId } });
 
@@ -128,14 +128,14 @@ async function getUserInfo(body) {
   return {
     user: {
       id: user.id,
-      first_name: req.user.firstName,
-      last_name: req.user.lastName,
+      first_name: reqUser.firstName,
+      last_name: reqUser.lastName,
       email: user.email,
       domain: user.domain,
-      phone: req.user.phone,
-      designation: req.user.designation,
-      profilePicture: req.user.profilePicture,
-      role: req.user.role,
+      phone: reqUser.phone,
+      designation: reqUser.designation,
+      profilePicture: reqUser.profilePicture,
+      role: reqUser.role,
     }
   };
 }

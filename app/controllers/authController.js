@@ -82,7 +82,7 @@ const getUserAndPaymentInfo = async (req,res) => {
 
 const getUserInfo = async (req,res) => {
     try {
-        const response = await authService.getUserInfo(req.body);
+        const response = await authService.getUserInfo(req.body, req.user);
         const successResponse = createSuccessResponse(200, "User data found successfully", response);
         return res.status(200).json(successResponse);
     } catch (error) {
