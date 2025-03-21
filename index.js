@@ -1,12 +1,16 @@
+require('dotenv').config();
+
 const express = require("express");
 const cors = require("cors");
 const db = require("./app/models"); 
+const serverRoutes = require('./app/routes/serverRoutes'); 
 const authRoutes = require('./app/routes/authRoutes'); 
 const userRoutes = require('./app/routes/userRoutes'); 
 const paymentRoutes = require('./app/routes/paymentRoutes'); 
 const masterRoutes = require('./app/routes/masterDataRoutes'); 
 const projectRoutes = require('./app/routes/projectRoutes'); 
-const swaggerDocs = require("./app/swaggerConfig")
+const swaggerDocs = require("./app/swaggerConfig");
+const { authenticate, authenticateApiKey } = require("./app/middlewares/auth_middleware");
 
 const app = express();
 
@@ -53,11 +57,12 @@ app.get("/debug", (req, res) => {
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1', authRoutes);
-app.use('/api/v1/users', userRoutes);
-app.use('/api/v1/payments', paymentRoutes);
-app.use('/api/v1/master', masterRoutes);
-app.use('/api/v1/project', projectRoutes);
+app.use('/api/v1/server', authenticateApiKey, serverRoutes);
+app.use('/api/v1', authenticate, authRoutes);
+app.use('/api/v1/users', authenticate, userRoutes);
+app.use('/api/v1/payments', authenticate, paymentRoutes);
+app.use('/api/v1/master', authenticate, masterRoutes);
+app.use('/api/v1/project', authenticate, projectRoutes);
 swaggerDocs(app);
 
 app.get("/", (req, res) => {
