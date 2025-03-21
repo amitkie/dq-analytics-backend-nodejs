@@ -73,6 +73,23 @@ router.post('/register', authController.createUser)
  */
 router.post('/login', authController.loginUser);
 
+// GET /api/v1/isLoggedIn - Check if a user is logged in
+/**
+ * @swagger
+ * /isLoggedIn:
+ *   get:
+ *     summary: Check if a user is logged in
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: User is logged in
+ *       401:
+ *         description: Invalid credentials
+ *       403:
+ *         description: Tool not subscribed
+ */
+router.get('/isLoggedIn', authController.isLoggedIn);
+
 //  POST /api/v1/get-user-info 
 /**
  * @swagger
