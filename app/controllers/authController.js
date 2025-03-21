@@ -48,22 +48,42 @@ const createUser = async (req, res) => {
     }
   };
 
-  const isLoggedIn = async (req, res) => {
-    try {
-      const successResponse = createSuccessResponse(200, "User is logged in", req.user);
-      return res.status(200).json(successResponse);
-    } catch (error) {
-      console.log(error);
-      if (error instanceof ValidationError) {
-        const errorResponse = createErrorResponse(400, error.code, error.message);
-        return res.status(400).json(errorResponse);
-      }
-  
-      const errorResponse = createErrorResponse(500, 'INTERNAL_SERVER_ERROR', 'Internal Server Error');
-      return res.status(500).json(errorResponse);
+const isLoggedIn = async (req, res) => {
+  try {
+    // Sending reponse directly as we have an auth middleware which will check for login
+    const successResponse = createSuccessResponse(200, "User is logged in", req.user);
+    return res.status(200).json(successResponse);
+  } catch (error) {
+    const errorResponse = createErrorResponse(500, 'INTERNAL_SERVER_ERROR', 'Internal Server Error');
+    return res.status(500).json(errorResponse);
+  }
+};
+
+const logout = async (req, res) => {
+  const token = req.headers?.authorization?.replace('Bearer ', '');
+  try {
+    const response = await fetch(process.env.ONBOARDING_PORTAL_SERVER_URL + '/auth/logout', {
+        method: 'POST',
+        headers: {
+            authorization: `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json();
+        const errorResponse = createErrorResponse(errorData.statusCode, errorData.errorCode, errorData.message);
+        return res.status(errorData.statusCode).json(errorResponse);
     }
-  };
-  
+
+    const successResponse = createSuccessResponse(200, "User is logged out");
+    return res.status(200).json(successResponse);
+  } catch (error) {
+    const errorResponse = createErrorResponse(500, 'INTERNAL_SERVER_ERROR', 'Internal Server Error', error.message);
+    return res.status(500).json(errorResponse);
+  }
+};
 
 const getUserAndPaymentInfo = async (req,res) => {
     try {
@@ -133,4 +153,4 @@ const demoScheduler = async (req, res) => {
     }
 };
 
-module.exports = {createUser, loginUser, isLoggedIn, getUserAndPaymentInfo, getUserInfo, sendFeedback, demoScheduler};
+module.exports = {createUser, loginUser, isLoggedIn, getUserAndPaymentInfo, getUserInfo, sendFeedback, demoScheduler, logout};

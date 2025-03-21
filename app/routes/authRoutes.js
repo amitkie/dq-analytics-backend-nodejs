@@ -213,5 +213,21 @@ router.post('/send-feedback', authController.sendFeedback);
  */
 router.post('/demo-scheduler', authController.demoScheduler);
 
+// POST /api/v1/logout - To logout the user
+/**
+ * @swagger
+ * /logout:
+ *   post:
+ *     summary: To logout the user
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: User is logged out
+ *       401:
+ *         description: Invalid credentials
+ *       403:
+ *         description: Tool not subscribed
+ */
+router.post('/logout', authController.logout);
 
 module.exports = router;
