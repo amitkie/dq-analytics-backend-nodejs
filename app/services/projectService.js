@@ -463,53 +463,54 @@ const getProjectByUserId = async (user_id) => {
       order: [['createdAt', 'DESC']]
     });
 
-    // Retrieve names for frequency, category, metric, and brand
-    for (let project of projectData) {
-      if (project.frequency_id) {
-        const frequenciesData = await frequencies.findAll({
-          where: { id: project.frequency_id },
-          attributes: ['name']
-        });
-        project.dataValues.frequencyNames = frequenciesData.map(frequency => frequency.name);
-      }
+    // Extract unique IDs from array fields
+    const frequencyIds = [...new Set(projectData.flatMap(project => project.frequency_id || []))];
+    const categoryIds = [...new Set(projectData.flatMap(project => project.category_id || []))];
+    const metricIds = [...new Set(projectData.flatMap(project => project.metric_id || []))];
+    const brandIds = [...new Set(projectData.flatMap(project => project.brand_id || []))];
 
-      if (project.category_id) {
-        const categoriesData = await categories.findAll({
-          where: { id: project.category_id },
-          attributes: ['name']
-        });
-        project.dataValues.categoryNames = categoriesData.map(category => category.name);
-      }
+    // Fetch related data in parallel
+    const [frequenciesData, categoriesData, metricsData, brandsData] = await Promise.all([
+      frequencies.findAll({ where: { id: frequencyIds }, attributes: ['id', 'name'] }),
+      categories.findAll({ where: { id: categoryIds }, attributes: ['id', 'name'] }),
+      metrics.findAll({ where: { id: metricIds }, attributes: ['id', 'name'] }),
+      brands.findAll({ where: { id: brandIds }, attributes: ['id', 'name'] }),
+    ]);
 
-      if (project.metric_id) {
-        const metricsData = await metrics.findAll({
-          where: { id: project.metric_id },
-          attributes: ['name']
-        });
-        project.dataValues.metricNames = metricsData.map(metric => metric.name);
-      }
+    // Create lookup maps for quick access
+    const frequencyMap = Object.fromEntries(frequenciesData.map(f => [f.id, f.name]));
+    const categoryMap = Object.fromEntries(categoriesData.map(c => [c.id, c.name]));
+    const metricMap = Object.fromEntries(metricsData.map(m => [m.id, m.name]));
+    const brandMap = Object.fromEntries(brandsData.map(b => [b.id, b.name]));
 
-      if (project.brand_id) {
-        const brandsData = await brands.findAll({
-          where: { id: project.brand_id },
-          attributes: ['name']
-        });
-        project.dataValues.brandNames = brandsData.map(brand => brand.name);
-      }
+    // Enrich each project with names from lookup maps and exclude unwanted fields
+    const enrichedProjects = projectData.map(project => {
+      const plainProject = project.get({ plain: true }); // Get plain object
 
-      // Remove the original ID arrays
-      delete project.dataValues.metric_id;
-      delete project.dataValues.brand_id;
-      delete project.dataValues.category_id;
-      delete project.dataValues.frequency_id;
-    }
+      return {
+        id: plainProject.id,
+        project_name: plainProject.project_name,
+        is_benchmark_saved: plainProject.is_benchmark_saved,
+        is_favorite: plainProject.is_favorite,
+        file_url: plainProject.file_url,
+        start_date: plainProject.start_date,
+        end_date: plainProject.end_date,
+        user_id: plainProject.user_id,
+        createdAt: plainProject.createdAt,
+        updatedAt: plainProject.updatedAt,
+        frequencyNames: (plainProject.frequency_id || []).map(id => frequencyMap[id]).filter(Boolean),
+        categoryNames: (plainProject.category_id || []).map(id => categoryMap[id]).filter(Boolean),
+        metricNames: (plainProject.metric_id || []).map(id => metricMap[id]).filter(Boolean),
+        brandNames: (plainProject.brand_id || []).map(id => brandMap[id]).filter(Boolean),
+      };
+    });
 
-    return projectData;
+    return enrichedProjects;
 
   } catch (error) {
     throw new Error(error.message);
   }
-}
+};
 
 const getProjectByDateRangeAndUserId = async (user_id, filter, year) => {
   try {
