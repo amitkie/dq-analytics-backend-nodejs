@@ -1,4 +1,4 @@
-const { users,metricGroup, userProjects, metrics, platform, sections, frequencies, categories, brands, userUrls, userAnalytic, projectBenchmark, userProjectDQScore, superThemeMetricGroup } = require('../models');
+const { users,metricGroup, userProjects, metrics, platform, sections, frequencies, categories, brands, userUrls, userAnalytic, projectBenchmark, userProjectDQScore, superThemeMetricGroup, newMetrics } = require('../models');
 const { Op, Sequelize } = require('sequelize');
 const moment = require("moment"); 
 const { getMonthNumberFromString } = require('../utils/dateHandler');
@@ -353,7 +353,7 @@ const getProjectById = async (projectId) => {
     const platformIds = [...new Set(userAnalyticsData.map(ua => ua.platform_id).filter(id => id != null))];
     const sectionIds = [...new Set(userAnalyticsData.map(ua => ua.section_id).filter(id => id != null))];
 
-    const metricsData = await metrics.findAll({
+    const metricsData = await newMetrics.findAll({
       where: {
         id: {
           [Op.in]: metricIds
@@ -425,6 +425,7 @@ const getProjectById = async (projectId) => {
       return {
         metric_id: ua.metric_id,
         metric_name: metric.name || null,
+        metric_new_name: metric.new_name || null,
         platform: platform,
         section: section,
         weights: ua.weights,

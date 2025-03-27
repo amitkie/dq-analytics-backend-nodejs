@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { users, payments, userActivities } = require('../models/index'); // Assuming your models are exported correctly
 
 

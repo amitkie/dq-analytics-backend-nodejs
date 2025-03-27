@@ -4,6 +4,7 @@ const {
   platform,
   benchmarks,
   metrics,
+  newMetrics,
   frequencies,
   sections,
 } = require("../models/index");
@@ -290,7 +291,7 @@ const getAllBenchmark = async () => {
 };
 const getAllMetrics = async () => {
   try {
-    const metricsData = await metrics.findAll();
+    const metricsData = await newMetrics.findAll();
     if (!metricsData) {
       throw new ValidationError("METRICS_NOT_FOUND", "Data not found.");
     }
@@ -341,7 +342,7 @@ const getMetricsBySectionsAndPlatformIds = async (sections, platformIds) => {
   try {
     const sectionIds = sections.map((section) => section.id);
 
-    const metricsData = await metrics.findAll({
+    const metricsData = await newMetrics.findAll({
       where: {
         platform_id: {
           [Op.in]: platformIds,

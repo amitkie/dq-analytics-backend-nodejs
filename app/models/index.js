@@ -31,6 +31,7 @@ db.frequencies = require("./frequency.js")(sequelize, Sequelize);
 db.brands = require("./brand.js")(sequelize, Sequelize);
 db.categories = require("./category.js")(sequelize, Sequelize);
 db.metrics = require("./metrics.js")(sequelize, Sequelize);
+db.newMetrics = require("./newMetrics.js")(sequelize, Sequelize);
 db.platform = require("./platform.js")(sequelize, Sequelize);
 db.sections = require("./section.js")(sequelize, Sequelize);
 db.users = require("./user.js")(sequelize, Sequelize);
